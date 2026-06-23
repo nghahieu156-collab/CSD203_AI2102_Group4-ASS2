@@ -21,4 +21,3 @@ class CustomerList:
             cur = cur.next
         return False
 
-abcd
