@@ -1,9 +1,9 @@
 
 class OrderNode:
     def __init__(self, pcode, ccode, quantity):
-        self.pcode    = pcode      # mã sản phẩm
-        self.ccode    = ccode      # mã khách hàng
-        self.quantity = quantity   # số lượng đặt
+        self.pcode    = pcode    
+        self.ccode    = ccode    
+        self.quantity = quantity  
         self.next     = None
 
     def __str__(self):
