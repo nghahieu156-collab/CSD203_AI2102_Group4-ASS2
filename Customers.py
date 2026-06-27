@@ -1,8 +1,8 @@
 class CustomerNode:
     def __init__(self, ccode, cus_name, phone):
-        self.ccode    = ccode      # unique key
+        self.ccode    = ccode  
         self.cus_name = cus_name
-        self.phone    = phone      # chỉ chứa chữ số
+        self.phone    = phone      
         self.next     = None
 
     def __str__(self):
