@@ -5,12 +5,12 @@ Description:
     Customer part - Sales and Inventory Management System
     Custom singly linked list.
     Covers menu:
-    2.1 Load data from file
-    2.2 Input & add to the end
-    2.3 Display data
-    2.4 Save customer list to file
-    2.5 Search by ccode
-    2.6 Delete by ccode 
+        2.1 Load data from file
+        2.2 Input & add to the end
+        2.3 Display data
+        2.4 Save customer list to file
+        2.5 Search by ccode
+        2.6 Delete by ccode 
 """
 
 class CustomerNode:
