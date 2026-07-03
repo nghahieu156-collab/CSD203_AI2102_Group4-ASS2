@@ -1,4 +1,6 @@
-
+""" 
+Nguyen Tran Duc Minh 03/07/2026
+"""
 class OrderNode:
     def __init__(self, pcode, ccode, quantity):
         self.pcode    = pcode    
