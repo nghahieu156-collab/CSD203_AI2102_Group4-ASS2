@@ -1,7 +1,7 @@
-"""
+""" 
 Nguyen Tran Duc Minh
+update: 03/07/2026
 """
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -44,12 +44,11 @@ class LinkedListOrder:
                     swapped = True
                 curr = curr.next
 
-# --- Main Application UI ---
+# --- Order Application UI ---
 class OrderApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Order Management System")
-        self.root.geometry("800x600")
         self.ll = LinkedListOrder()
 
         # Input Frame
@@ -103,17 +102,10 @@ class OrderApp:
         messagebox.showinfo("Success", "List sorted by Product and Customer code!")
 
     def refresh_table(self):
-        # Clear existing items
         for item in self.tree.get_children():
             self.tree.delete(item)
         
-        # Traverse Linked List and insert into Treeview
         curr = self.ll.head
         while curr:
             self.tree.insert("", "end", values=(curr.pcode, curr.ccode, curr.quantity))
             curr = curr.next
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = OrderApp(root)
-    root.mainloop()
