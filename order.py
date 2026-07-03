@@ -46,8 +46,8 @@ class LinkedListOrder:
             current = self.head
             while current.next:
                 # Compare pcode; if they are equal, compare ccode.
-                if (current.pcode > current.next.pcode) or \
-                   (current.pcode == current.next.pcode and current.ccode > current.next.ccode):
+                if (current.pcode > current.next.pcode) or (current.pcode == current.next.pcode
+                                                            and current.ccode > current.next.ccode):
                     # swap code's value
                     current.pcode, current.next.pcode = current.next.pcode, current.pcode
                     current.ccode, current.next.ccode = current.next.ccode, current.ccode
