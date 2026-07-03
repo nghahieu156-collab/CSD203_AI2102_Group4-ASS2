@@ -2,8 +2,6 @@
 Nguyen Ha Hieu
 DATE: 26/06/2006"""
 
-from collections import deque
-
 class ProductNode:
     def __init__(self, pcode, pro_name, quantity, saled, price):
         self.pcode    = pcode
@@ -25,23 +23,26 @@ class ProductNode:
 class ProductBST:
     def __init__(self):
         self.root = None
-    #insert: new product
+
+    # insert: new product
     def insert(self, pcode, pro_name, quantity, saled, price):
         node = ProductNode(pcode, pro_name, quantity, saled, price)
-        if self.root is None: #if none = root
+        if self.root is None: # if none = root
             self.root = node
             return True
         cur = self.root
-        while True: #loop for compare  new pcode, current pcode
+        while True: # loop for compare  new pcode, current pcode
             if pcode == cur.pcode: 
                 return False          # duplicate
-            elif pcode < cur.pcode: # turn left if smaller
+            elif pcode < cur.pcode:   # turn left if smaller
                 if cur.left is None:
-                    cur.left = node; return True
+                    cur.left = node
+                    return True
                 cur = cur.left
             else: 
                 if cur.right is None:
-                    cur.right = node; return True
+                    cur.right = node
+                    return True
                 cur = cur.right
 
     # find product
@@ -50,7 +51,10 @@ class ProductBST:
         while cur:
             if pcode == cur.pcode:
                 return cur
-            cur = cur.left if pcode < cur.pcode else cur.right
+            if pcode < cur.pcode:
+                cur = cur.left
+            else:
+                cur = cur.right
         return None
 
     # ── in-order (returns sorted list) ──────
@@ -64,24 +68,31 @@ class ProductBST:
             result += self.inorder(node.right, False)
         return result
 
-    #  BFS 
+    # ── BFS (KHÔNG DÙNG deque) ──────
     def bfs(self):
         if not self.root:
             return []
-        result, q = [], deque([self.root])
-        while q:
-            node = q.popleft()
+            
+        result = []
+        q = [self.root]
+        
+        head = 0  # Dùng con trỏ head thay cho q.popleft() để duyệt mảng
+        size = 1  # Biến theo dõi kích thước mảng (thay thế hàm len())
+        
+        while head < size:
+            node = q[head]
+            head += 1
             result.append(node)
-            if node.left:  q.append(node.left)
-            if node.right: q.append(node.right)
+            
+            if node.left:
+                q.append(node.left)
+                size += 1
+            if node.right:
+                q.append(node.right)
+                size += 1
         return result
 
     # delete by copying
-    def _min_node(self, node):
-        while node.left:
-            node = node.left
-        return node
-
     def delete(self, pcode):
         parent, cur, is_left = None, self.root, False
         while cur and cur.pcode != pcode:
@@ -90,6 +101,7 @@ class ProductBST:
                 cur, is_left = cur.left, True
             else:
                 cur, is_left = cur.right, False
+                
         if cur is None:
             return False
 
@@ -111,7 +123,11 @@ class ProductBST:
             else:
                 succ_parent.left  = child
         else:
-            child = cur.right if cur.left is None else cur.left
+            if cur.left is None:
+                child = cur.right
+            else:
+                child = cur.left
+                
             if parent is None:
                 self.root = child
             elif is_left:
@@ -120,7 +136,7 @@ class ProductBST:
                 parent.right = child
         return True
 
-    # ── count
+    # ── count ──────
     def count(self, node=None, first=True):
         if first:
             node = self.root
@@ -128,18 +144,32 @@ class ProductBST:
             return 0
         return 1 + self.count(node.left, False) + self.count(node.right, False)
 
-    # ── height
+    # ── height (KHÔNG DÙNG max()) ──────
     def height(self, node=None, first=True):
         if first:
             node = self.root
         if node is None:
             return 0
-        return 1 + max(self.height(node.left, False), self.height(node.right, False))
+            
+        left_h = self.height(node.left, False)
+        right_h = self.height(node.right, False)
+        
+        # Tự so sánh để thay cho hàm max()
+        if left_h > right_h:
+            return 1 + left_h
+        else:
+            return 1 + right_h
 
-    # ── simple balancing 
+    # ── simple balancing (KHÔNG DÙNG len()) ──────
     def balance(self):
         nodes = self.inorder()
-        self.root = self._sorted_to_bst(nodes, 0, len(nodes) - 1)
+        
+        # Tự đếm số lượng phần tử thay vì dùng len(nodes)
+        node_count = 0
+        for _ in nodes:
+            node_count += 1
+            
+        self.root = self._sorted_to_bst(nodes, 0, node_count - 1)
 
     def _sorted_to_bst(self, nodes, lo, hi):
         if lo > hi:
@@ -150,7 +180,7 @@ class ProductBST:
         node.right = self._sorted_to_bst(nodes, mid + 1, hi)
         return node
 
-    # ── update saled 
+    # ── update saled ──────
     def update_saled(self, pcode, qty):
         node = self.search(pcode)
         if node is None:
