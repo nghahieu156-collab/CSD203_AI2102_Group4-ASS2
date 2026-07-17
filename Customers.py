@@ -35,6 +35,8 @@ class CustomerList:
             cur = cur.next
         return False
 
+
+ádasfafasfa
     @staticmethod
     def _valid_phone(phone):
         return phone.isdigit()
